@@ -20,3 +20,7 @@ pub fn ejecutar_comando(comando: &str, args: &[&str]) {
         eprintln!("El comando terminó con código: {:?}", status.code());
     }
 }
+
+pub fn inicializar_git(directorio: &str) {
+    ejecutar_comando("git", &["init", directorio]);
+}
