@@ -10,7 +10,7 @@ enum Commands {
 
 
 #[derive(Parser)]
-#[command(name = "initru")]
+#[command(name = "initRu")]
 struct Cli {
     #[command(subcommand)]
     command: Option<Commands>,
@@ -22,8 +22,6 @@ fn main() {
 
     match cli.command {
         Some(Commands::Python) => make::python(),
-        None => {
-            println!("Uso: initru python");
-        }
+        None => { println!("run -h for help"); },
     }
 }

@@ -3,7 +3,7 @@
 version = 4
 
 [[package]]
-name = "Initru"
+name = "InitRu"
 version = "0.1.0"
 dependencies = [
  "clap",
