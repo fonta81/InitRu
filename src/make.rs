@@ -1,19 +1,18 @@
-use crate::utils::inicializar_git;
 
-use super::utils::{crear_archivo, crear_carpeta, ejecutar_comando};
+use super::utils::{crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git};
 
-pub fn python(git:bool) {
+pub fn python(nombre: &str, git: bool) {
     // carpeta principal
-    crear_carpeta("./proyecto", "src");
-    crear_carpeta("./proyecto", "tests");
+    crear_carpeta(nombre, "src");
+    crear_carpeta(nombre, "tests");
     // archivos
-    crear_archivo("./proyecto", "README.md", "hello this is my proyec");
-    crear_archivo("./proyecto", "requirements.txt", "");
-    crear_archivo("./proyecto/src", "main.py", "print('hola mundo')\n");
+    crear_archivo(nombre, "README.md", "hello this is my proyec");
+    crear_archivo(nombre, "requirements.txt", "");
+    crear_archivo(&format!("{}/src", nombre), "main.py", "print('hola mundo')\n");
     // comandos
-    ejecutar_comando("python3", &["-m", "venv", "./proyecto/.venv"]);
+    ejecutar_comando("python3", &["-m", "venv", &format!("{}/.venv", nombre)]);
     if git {
-        inicializar_git("./proyecto");
-        crear_archivo("./proyecto", ".gitignore", "/.venv");
+        inicializar_git(nombre);
+        crear_archivo(nombre, ".gitignore", "/.venv");
     }
 }
