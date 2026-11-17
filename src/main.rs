@@ -5,7 +5,7 @@ use clap::Parser;
 
 #[derive(clap::Subcommand)]
 enum Commands {
-    Python,
+    Python {name: String},
 }
 
 
@@ -18,15 +18,13 @@ struct Cli {
     #[arg(short, help="initialize a git repo")]
     git: bool,
 
-    #[arg(short, long, help = "nombre del proyecto")]
-    name: String,
 }
 
 fn main() {
     let cli = Cli::parse();
 
     match cli.command {
-        Some(Commands::Python) => make::python(&cli.name, cli.git),
+        Some(Commands::Python { name }) => make::python(&name, cli.git),
         None => { println!("run -h for help"); },
     }
 }
