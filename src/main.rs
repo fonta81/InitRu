@@ -6,6 +6,7 @@ use clap::Parser;
 #[derive(clap::Subcommand)]
 enum Commands {
     Python {name: String},
+    Bash {name: String},
 }
 
 
@@ -25,6 +26,7 @@ fn main() {
 
     match cli.command {
         Some(Commands::Python { name }) => make::python(&name, cli.git),
+        Some(Commands::Bash { name }) => make::bash(&name, cli.git),
         None => { println!("run -h for help"); },
     }
 }
