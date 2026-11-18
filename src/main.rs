@@ -7,6 +7,7 @@ use clap::Parser;
 enum Commands {
     Python {name: String},
     Bash {name: String},
+    Rust {name: String},
 }
 
 
@@ -27,6 +28,7 @@ fn main() {
     match cli.command {
         Some(Commands::Python { name }) => make::python(&name, cli.git),
         Some(Commands::Bash { name }) => make::bash(&name, cli.git),
+        Some(Commands::Rust { name }) => make::rust(&name, cli.git),
         None => { println!("run -h for help"); },
     }
 }
