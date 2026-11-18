@@ -21,6 +21,11 @@ InitRu es una herramienta de linea de comandos ligera desarrollada en Rust para 
 - **Soporte para Python:**
   - Estructura estandar de directorios y archivos de inicio.
   - Creacion automatica de entorno virtual (`python3 -m venv .venv`).
+- **Soporte para Bash:**
+  - Crea el directorio `src/` y un script ejecutable `src/main.sh`.
+- **Soporte para Rust:**
+  - Crea el directorio `src/`, `Cargo.toml` y `src/main.rs`.
+  - Compila el proyecto con `cargo build`.
 - **Integracion con Git opcional (`-g`):**
   - Inicializa el repositorio con `git init`.
   - Genera automaticamente `.gitignore` adaptado al lenguaje.
@@ -35,6 +40,8 @@ Uso: InitRu [OPCIONES] [COMANDO]
 
 Comandos:
   python  Crea un nuevo proyecto en Python
+  bash    Crea un nuevo proyecto en Bash
+  rust    Crea un nuevo proyecto en Rust
   help    Muestra este mensaje o la ayuda del subcomando
 
 Opciones:
@@ -54,10 +61,32 @@ Opciones:
    InitRu -g python mi_proyecto
    ```
 
-3. **Consultar la ayuda:**
+3. **Crear un proyecto Bash:**
+   ```bash
+   InitRu bash mi_script
+   ```
+
+4. **Crear un proyecto Bash con Git inicializado:**
+   ```bash
+   InitRu -g bash mi_script
+   ```
+
+5. **Crear un proyecto Rust:**
+   ```bash
+   InitRu rust mi_crate
+   ```
+
+6. **Crear un proyecto Rust con Git inicializado:**
+   ```bash
+   InitRu -g rust mi_crate
+   ```
+
+7. **Consultar la ayuda:**
    ```bash
    InitRu -h
    InitRu python -h
+   InitRu bash -h
+   InitRu rust -h
    ```
 
 ---

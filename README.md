@@ -21,6 +21,11 @@ InitRu is a lightweight command-line tool built with Rust designed to automate p
 - **Python Support:**
   - Standard directory hierarchy and starter files.
   - Automatic virtual environment setup (`python3 -m venv .venv`).
+- **Bash Support:**
+  - Creates `src/` directory and an executable `src/main.sh` script.
+- **Rust Support:**
+  - Creates `src/` directory, `Cargo.toml`, and `src/main.rs`.
+  - Builds the project with `cargo build`.
 - **Optional Git Integration (`-g`):**
   - Initializes a Git repository (`git init`).
   - Automatically creates a `.gitignore` pre-configured for the selected language.
@@ -35,6 +40,8 @@ Usage: InitRu [OPTIONS] [COMMAND]
 
 Commands:
   python  Scaffold a Python project
+  bash    Scaffold a Bash project
+  rust    Scaffold a Rust project
   help    Print this message or the help of the given subcommand(s)
 
 Options:
@@ -54,10 +61,32 @@ Options:
    InitRu -g python my_project
    ```
 
-3. **Display help:**
+3. **Create a Bash project:**
+   ```bash
+   InitRu bash my_script
+   ```
+
+4. **Create a Bash project with Git initialization:**
+   ```bash
+   InitRu -g bash my_script
+   ```
+
+5. **Create a Rust project:**
+   ```bash
+   InitRu rust my_crate
+   ```
+
+6. **Create a Rust project with Git initialization:**
+   ```bash
+   InitRu -g rust my_crate
+   ```
+
+7. **Display help:**
    ```bash
    InitRu -h
    InitRu python -h
+   InitRu bash -h
+   InitRu rust -h
    ```
 
 ---
