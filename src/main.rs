@@ -22,6 +22,7 @@ struct Cli {
 
 }
 
+
 fn main() {
     let cli = Cli::parse();
 

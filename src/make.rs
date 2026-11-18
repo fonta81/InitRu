@@ -1,5 +1,6 @@
 use super::utils::{crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git};
 
+
 // Python
 pub fn python(nombre: &str, git: bool) {
     // carpeta principal
@@ -17,6 +18,7 @@ pub fn python(nombre: &str, git: bool) {
     }
 }
 
+
 // Bash 
 pub fn bash(nombre: &str, git: bool) {
     // carpeta principal
@@ -31,6 +33,7 @@ pub fn bash(nombre: &str, git: bool) {
         crear_archivo(nombre, ".gitignore", "");
     }
 }
+
 
 // Rust
 pub fn rust(nombre: &str, git: bool) {
