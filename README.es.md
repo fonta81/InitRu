@@ -26,6 +26,8 @@ InitRu es una herramienta de linea de comandos ligera desarrollada en Rust para 
 - **Soporte para Rust:**
   - Crea el directorio `src/`, `Cargo.toml` y `src/main.rs`.
   - Compila el proyecto con `cargo build`.
+- **Soporte para JavaScript:**
+  - Crea el directorio `src/`, `package.json` (módulos ES y script `start`) y `src/main.js`.
 - **Integracion con Git opcional (`-g`):**
   - Inicializa el repositorio con `git init`.
   - Genera automaticamente `.gitignore` adaptado al lenguaje.
@@ -42,6 +44,7 @@ Comandos:
   python  Crea un nuevo proyecto en Python
   bash    Crea un nuevo proyecto en Bash
   rust    Crea un nuevo proyecto en Rust
+  javascript  Crea un nuevo proyecto en JavaScript
   help    Muestra este mensaje o la ayuda del subcomando
 
 Opciones:
@@ -81,12 +84,23 @@ Opciones:
    InitRu -g rust mi_crate
    ```
 
-7. **Consultar la ayuda:**
+7. **Crear un proyecto JavaScript:**
+   ```bash
+   InitRu javascript mi_app
+   ```
+
+8. **Crear un proyecto JavaScript con Git inicializado:**
+   ```bash
+   InitRu -g javascript mi_app
+   ```
+
+9. **Consultar la ayuda:**
    ```bash
    InitRu -h
    InitRu python -h
    InitRu bash -h
    InitRu rust -h
+   InitRu javascript -h
    ```
 
 ---

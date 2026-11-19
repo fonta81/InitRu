@@ -26,6 +26,8 @@ InitRu is a lightweight command-line tool built with Rust designed to automate p
 - **Rust Support:**
   - Creates `src/` directory, `Cargo.toml`, and `src/main.rs`.
   - Builds the project with `cargo build`.
+- **JavaScript Support:**
+  - Creates `src/` directory, `package.json` (ES modules, `start` script), and `src/main.js`.
 - **Optional Git Integration (`-g`):**
   - Initializes a Git repository (`git init`).
   - Automatically creates a `.gitignore` pre-configured for the selected language.
@@ -42,6 +44,7 @@ Commands:
   python  Scaffold a Python project
   bash    Scaffold a Bash project
   rust    Scaffold a Rust project
+  javascript  Scaffold a JavaScript project
   help    Print this message or the help of the given subcommand(s)
 
 Options:
@@ -81,12 +84,23 @@ Options:
    InitRu -g rust my_crate
    ```
 
-7. **Display help:**
+7. **Create a JavaScript project:**
+   ```bash
+   InitRu javascript my_app
+   ```
+
+8. **Create a JavaScript project with Git initialization:**
+   ```bash
+   InitRu -g javascript my_app
+   ```
+
+9. **Display help:**
    ```bash
    InitRu -h
    InitRu python -h
    InitRu bash -h
    InitRu rust -h
+   InitRu javascript -h
    ```
 
 ---
