@@ -8,6 +8,7 @@ enum Commands {
     Python {name: String},
     Bash {name: String},
     Rust {name: String},
+    Javascript {name: String},
 }
 
 
@@ -30,6 +31,7 @@ fn main() {
         Some(Commands::Python { name }) => make::python(&name, cli.git),
         Some(Commands::Bash { name }) => make::bash(&name, cli.git),
         Some(Commands::Rust { name }) => make::rust(&name, cli.git),
+        Some(Commands::Javascript { name }) => make::javascript(&name, cli.git),
         None => { println!("run -h for help"); },
     }
 }
