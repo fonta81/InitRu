@@ -7,12 +7,16 @@ use clap::Parser;
 enum Commands {
     #[command(visible_alias = "py")]
     Python {name: String},
+
     #[command(visible_alias = "sh")]
     Bash {name: String},
+
     #[command(visible_alias = "rs")]
     Rust {name: String},
+
     #[command(visible_alias = "js")]
     Javascript {name: String},
+
 }
 
 
