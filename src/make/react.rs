@@ -1,4 +1,4 @@
-use crate::utils::{crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git};
+use crate::utils::{crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git, nombre_paquete};
 
 // React
 pub fn react(nombre: &str, git: bool) {
@@ -22,16 +22,4 @@ pub fn react(nombre: &str, git: bool) {
         inicializar_git(nombre);
         crear_archivo(nombre, ".gitignore", "node_modules\ndist\ndist-ssr\n*.local\n.env\n.DS_Store\nnpm-debug.log*\n");
     }
-}
-
-// npm exige nombres en minusculas y sin caracteres especiales
-fn nombre_paquete(nombre: &str) -> String {
-    let paquete: String = nombre
-        .to_lowercase()
-        .chars()
-        .map(|c| if c.is_ascii_alphanumeric() || c == '-' || c == '_' { c } else { '-' })
-        .collect();
-    let paquete = paquete.trim_matches(|c| c == '-' || c == '_' || c == '.');
-
-    if paquete.is_empty() { "app".to_string() } else { paquete.to_string() }
 }
