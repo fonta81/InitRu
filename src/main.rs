@@ -17,6 +17,9 @@ enum Commands {
     #[command(visible_alias = "js")]
     Javascript {name: String},
 
+    #[command(visible_alias = "rt")]
+    React {name: String},
+
 }
 
 
@@ -40,6 +43,7 @@ fn main() {
         Some(Commands::Bash { name }) => make::bash(&name, cli.git),
         Some(Commands::Rust { name }) => make::rust(&name, cli.git),
         Some(Commands::Javascript { name }) => make::javascript(&name, cli.git),
+        Some(Commands::React { name }) => make::react(&name, cli.git),
         None => { println!("run -h for help"); },
     }
 }
