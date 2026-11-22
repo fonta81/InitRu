@@ -1,4 +1,4 @@
-use crate::utils::{crear_archivo, crear_carpeta, ejecutar_comando_en, inicializar_git};
+use crate::utils::{crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git};
 
 // React
 pub fn react(nombre: &str, git: bool) {
@@ -16,8 +16,8 @@ pub fn react(nombre: &str, git: bool) {
     crear_archivo(&format!("{}/src", nombre), "index.css", "*, *::before, *::after {\n  box-sizing: border-box;\n}\n\nbody {\n  margin: 0;\n  background: #242424;\n  color: #fff;\n}\n");
 
     // dependencias
-    ejecutar_comando_en(nombre, "npm", &["install", "react", "react-dom"]);
-    ejecutar_comando_en(nombre, "npm", &["install", "-D", "vite", "@vitejs/plugin-react"]);
+    ejecutar_comando("npm", &["install", "react", "react-dom"], Some(nombre));
+    ejecutar_comando("npm", &["install", "-D", "vite", "@vitejs/plugin-react"], Some(nombre));
     if git {
         inicializar_git(nombre);
         crear_archivo(nombre, ".gitignore", "node_modules\ndist\ndist-ssr\n*.local\n.env\n.DS_Store\nnpm-debug.log*\n");

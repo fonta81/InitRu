@@ -8,7 +8,7 @@ pub fn bash(nombre: &str, git: bool) {
     crear_archivo(nombre, "README.md", "hello this is my proyec");
     crear_archivo(&format!("{}/src", nombre), "main.sh", "#!/bin/bash\necho 'hola mundo'\n");
     // permisos de ejecución
-    ejecutar_comando("chmod", &["+x", &format!("{}/src/main.sh", nombre)]);
+    ejecutar_comando("chmod", &["+x", &format!("{}/src/main.sh", nombre)], None);
     if git {
         inicializar_git(nombre);
         crear_archivo(nombre, ".gitignore", "");

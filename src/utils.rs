@@ -10,20 +10,12 @@ pub fn crear_archivo(ruta: &str, nombre: &str, contenido: &str) {
     fs::write(&path, contenido).expect("No se pudo crear el archivo");
 }
 
-pub fn ejecutar_comando(comando: &str, args: &[&str]) {
-    let status = std::process::Command::new(comando)
-        .args(args)
-        .status()
-        .expect("No se pudo ejecutar el comando");
-
-    if !status.success() {
-        eprintln!("El comando terminó con código: {:?}", status.code());
+pub fn ejecutar_comando(comando: &str, args: &[&str], directorio: Option<&str>) {
+    let mut cmd = std::process::Command::new(comando);
+    if let Some(dir) = directorio {
+        cmd.current_dir(dir);
     }
-}
-
-pub fn ejecutar_comando_en(directorio: &str, comando: &str, args: &[&str]) {
-    let status = std::process::Command::new(comando)
-        .current_dir(directorio)
+    let status = cmd
         .args(args)
         .status()
         .expect("No se pudo ejecutar el comando");
@@ -34,5 +26,26 @@ pub fn ejecutar_comando_en(directorio: &str, comando: &str, args: &[&str]) {
 }
 
 pub fn inicializar_git(directorio: &str) {
-    ejecutar_comando("git", &["init", directorio]);
+    ejecutar_comando("git", &["init", directorio], None);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn ejecuta_en_el_directorio_indicado() {
+        let dir = std::env::temp_dir().join(format!("initru-test-{}", std::process::id()));
+        fs::create_dir_all(&dir).unwrap();
+
+        ejecutar_comando("sh", &["-c", "pwd > salida.txt"], Some(dir.to_str().unwrap()));
+
+        let salida = fs::read_to_string(dir.join("salida.txt")).unwrap();
+        assert_eq!(
+            fs::canonicalize(salida.trim()).unwrap(),
+            fs::canonicalize(&dir).unwrap()
+        );
+
+        fs::remove_dir_all(&dir).unwrap();
+    }
 }
