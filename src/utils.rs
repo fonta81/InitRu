@@ -21,6 +21,18 @@ pub fn ejecutar_comando(comando: &str, args: &[&str]) {
     }
 }
 
+pub fn ejecutar_comando_en(directorio: &str, comando: &str, args: &[&str]) {
+    let status = std::process::Command::new(comando)
+        .current_dir(directorio)
+        .args(args)
+        .status()
+        .expect("No se pudo ejecutar el comando");
+
+    if !status.success() {
+        eprintln!("El comando terminó con código: {:?}", status.code());
+    }
+}
+
 pub fn inicializar_git(directorio: &str) {
     ejecutar_comando("git", &["init", directorio]);
 }
