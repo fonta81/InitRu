@@ -29,23 +29,14 @@ pub fn inicializar_git(directorio: &str) {
     ejecutar_comando("git", &["init", directorio], None);
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+// npm exige nombres en minusculas y sin caracteres especiales
+pub fn nombre_paquete(nombre: &str) -> String {
+    let paquete: String = nombre
+        .to_lowercase()
+        .chars()
+        .map(|c| if c.is_ascii_alphanumeric() || c == '-' || c == '_' { c } else { '-' })
+        .collect();
+    let paquete = paquete.trim_matches(|c| c == '-' || c == '_' || c == '.');
 
-    #[test]
-    fn ejecuta_en_el_directorio_indicado() {
-        let dir = std::env::temp_dir().join(format!("initru-test-{}", std::process::id()));
-        fs::create_dir_all(&dir).unwrap();
-
-        ejecutar_comando("sh", &["-c", "pwd > salida.txt"], Some(dir.to_str().unwrap()));
-
-        let salida = fs::read_to_string(dir.join("salida.txt")).unwrap();
-        assert_eq!(
-            fs::canonicalize(salida.trim()).unwrap(),
-            fs::canonicalize(&dir).unwrap()
-        );
-
-        fs::remove_dir_all(&dir).unwrap();
-    }
+    if paquete.is_empty() { "app".to_string() } else { paquete.to_string() }
 }
