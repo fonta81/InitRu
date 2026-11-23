@@ -5,10 +5,14 @@ pub fn crear_carpeta(ruta: &str, nombre: &str) {
     fs::create_dir_all(&path).expect("No se pudo crear la carpeta");
 }
 
+
+
 pub fn crear_archivo(ruta: &str, nombre: &str, contenido: &str) {
     let path = format!("{}/{}", ruta, nombre);
     fs::write(&path, contenido).expect("No se pudo crear el archivo");
 }
+
+
 
 pub fn ejecutar_comando(comando: &str, args: &[&str], directorio: Option<&str>) {
     let mut cmd = std::process::Command::new(comando);
@@ -25,9 +29,13 @@ pub fn ejecutar_comando(comando: &str, args: &[&str], directorio: Option<&str>) 
     }
 }
 
+
+
 pub fn inicializar_git(directorio: &str) {
     ejecutar_comando("git", &["init", directorio], None);
 }
+
+
 
 // npm exige nombres en minusculas y sin caracteres especiales
 pub fn nombre_paquete(nombre: &str) -> String {

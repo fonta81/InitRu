@@ -18,6 +18,7 @@ pub fn react(nombre: &str, git: bool) {
     // dependencias
     ejecutar_comando("npm", &["install", "react", "react-dom"], Some(nombre));
     ejecutar_comando("npm", &["install", "-D", "vite", "@vitejs/plugin-react"], Some(nombre));
+
     if git {
         inicializar_git(nombre);
         crear_archivo(nombre, ".gitignore", "node_modules\ndist\ndist-ssr\n*.local\n.env\n.DS_Store\nnpm-debug.log*\n");
