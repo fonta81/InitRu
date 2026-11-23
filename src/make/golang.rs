@@ -7,6 +7,7 @@ pub fn golang(nombre: &str, git: bool) {
 
     // archivos
     crear_archivo(nombre, "README.md", "hello this is my proyec");
+    crear_archivo(nombre, "go.sum", "");
     crear_archivo(&format!("{}/src", nombre), "main.go", "package main\nimport \"fmt\"\nfunc main() {\n fmt.Println(\"Hola, mundo\") \n}\n");
 
     // comandos
@@ -16,6 +17,6 @@ pub fn golang(nombre: &str, git: bool) {
 
     if git {
         inicializar_git(nombre);
-        crear_archivo(nombre, ".gitignore", "bin\n*.exe\n*.test,*.out");
+        crear_archivo(nombre, ".gitignore", "bin\n*.exe\n*.test\n*.out");
     }
 }
