@@ -28,6 +28,9 @@ InitRu es una herramienta de linea de comandos ligera desarrollada en Rust para 
   - Compila el proyecto con `cargo build`.
 - **Soporte para JavaScript:**
   - Crea el directorio `src/`, `package.json` (módulos ES y script `start`) y `src/main.js`.
+- **Soporte para TypeScript:**
+  - Crea un proyecto TypeScript para Node.js con `src/main.ts`, `tsconfig.json` estricto y scripts npm para compilar e iniciar.
+  - Instala TypeScript y compila el proyecto en `dist/`.
 - **Soporte para React:**
   - Crea un proyecto React con Vite (`index.html`, `vite.config.js`, `src/main.jsx`, `src/App.jsx`).
   - Instala automáticamente `react`, `react-dom`, `vite` y `@vitejs/plugin-react` (`npm install`).
@@ -48,6 +51,7 @@ Comandos:
   bash    Crea un nuevo proyecto en Bash
   rust    Crea un nuevo proyecto en Rust
   javascript  Crea un nuevo proyecto en JavaScript
+  typescript  Crea un nuevo proyecto en TypeScript
   react   Crea un nuevo proyecto en React (Vite)
   help    Muestra este mensaje o la ayuda del subcomando
 
@@ -103,18 +107,24 @@ Opciones:
    InitRu react mi_app
    ```
 
-10. **Crear un proyecto React con Git inicializado:**
+10. **Crear un proyecto TypeScript:**
+    ```bash
+    InitRu typescript mi_app
+    ```
+
+11. **Crear un proyecto React con Git inicializado:**
     ```bash
     InitRu -g react mi_app
     ```
 
-11. **Consultar la ayuda:**
+12. **Consultar la ayuda:**
     ```bash
     InitRu -h
     InitRu python -h
     InitRu bash -h
     InitRu rust -h
     InitRu javascript -h
+    InitRu typescript -h
     InitRu react -h
     ```
 
