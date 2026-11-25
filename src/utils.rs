@@ -32,7 +32,7 @@ pub fn ejecutar_comando(comando: &str, args: &[&str], directorio: Option<&str>) 
 
 
 pub fn inicializar_git(directorio: &str) {
-    ejecutar_comando("git", &["init", directorio], None);
+    ejecutar_comando("git", &["init", directorio, "-q"], None);
 }
 
 
