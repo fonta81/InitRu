@@ -6,27 +6,29 @@ use clap::Parser;
 #[derive(clap::Subcommand)]
 enum Commands {
     #[command(visible_alias = "py")]
-    Python {name: String},
+    Python { name: String },
 
     #[command(visible_alias = "sh")]
-    Bash {name: String},
+    Bash { name: String },
 
     #[command(visible_alias = "rs")]
-    Rust {name: String},
+    Rust { name: String },
 
     #[command(visible_alias = "js")]
-    Javascript {name: String},
+    Javascript { name: String },
 
     #[command(visible_alias = "ty")]
-    Typescript {name: String},
+    Typescript { name: String },
 
     #[command(visible_alias = "rt")]
-    React {name: String},
+    React { name: String },
 
     #[command(visible_alias = "go")]
-    Golang {name: String},
-}
+    Golang { name: String },
 
+    #[command(visible_alias = "dj")]
+    Django { name: String },
+}
 
 #[derive(Parser)]
 #[command(name = "initRu")]
@@ -34,11 +36,9 @@ struct Cli {
     #[command(subcommand)]
     command: Option<Commands>,
 
-    #[arg(short, help="initialize a git repo")]
+    #[arg(short, help = "initialize a git repo")]
     git: bool,
-
 }
-
 
 fn main() {
     let cli = Cli::parse();
@@ -51,6 +51,8 @@ fn main() {
         Some(Commands::Typescript { name }) => make::typescript(&name, cli.git),
         Some(Commands::React { name }) => make::react(&name, cli.git),
         Some(Commands::Golang { name }) => make::golang(&name, cli.git),
-        None => { println!("run -h for help"); },
+        Some(Commands::Django { name }) => { if !make::django(&name, cli.git) { std::process::exit(1); } }
+
+        None => { println!("run -h for help"); }
     }
 }
