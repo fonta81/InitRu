@@ -1,15 +1,17 @@
-mod python;
 mod bash;
-mod rust;
-mod javascript;
-mod typescript;
-mod react;
+mod django;
 mod golang;
+mod javascript;
+mod python;
+mod react;
+mod rust;
+mod typescript;
 
-pub use python::python;
 pub use bash::bash;
-pub use rust::rust;
-pub use javascript::javascript;
-pub use typescript::typescript;
-pub use react::react;
+pub use django::django;
 pub use golang::golang;
+pub use javascript::javascript;
+pub use python::python;
+pub use react::react;
+pub use rust::rust;
+pub use typescript::typescript;
