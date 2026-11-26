@@ -1,0 +1,58 @@
+use std::fs;
+
+/// Crea una carpeta en la ruta y con el nombre que se le indique
+pub fn crear_carpeta(ruta: &str, nombre: &str) {
+    let path = format!("{}/{}", ruta, nombre);
+    fs::create_dir_all(&path).expect("No se pudo crear la carpeta");
+}
+
+/// Crea un archivo en la ruta,nombre y con el contenido que se le indique
+pub fn crear_archivo(ruta: &str, nombre: &str, contenido: &str) {
+    let path = format!("{}/{}", ruta, nombre);
+    fs::write(&path, contenido).expect("No se pudo crear el archivo");
+}
+
+/// Ejecuta un comando enm el directorio que se le indique
+pub fn ejecutar_comando(comando: &str, args: &[&str], directorio: Option<&str>) -> bool {
+    let mut cmd = std::process::Command::new(comando);
+    if let Some(dir) = directorio {
+        cmd.current_dir(dir);
+    }
+    let status = cmd
+        .args(args)
+        .status()
+        .expect("No se pudo ejecutar el comando");
+
+    if !status.success() {
+        eprintln!("El comando terminó con código: {:?}", status.code());
+    }
+
+    status.success()
+}
+
+/// inicializa un repositorio git con -q
+pub fn inicializar_git(directorio: &str) -> bool {
+    ejecutar_comando("git", &["init", directorio, "-q"], None)
+}
+
+/// npm exige nombres en minusculas y sin caracteres especiales
+pub fn nombre_paquete(nombre: &str) -> String {
+    let paquete: String = nombre
+        .to_lowercase()
+        .chars()
+        .map(|c| {
+            if c.is_ascii_alphanumeric() || c == '-' || c == '_' {
+                c
+            } else {
+                '-'
+            }
+        })
+        .collect();
+    let paquete = paquete.trim_matches(|c| c == '-' || c == '_' || c == '.');
+
+    if paquete.is_empty() {
+        "app".to_string()
+    } else {
+        paquete.to_string()
+    }
+}
