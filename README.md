@@ -21,6 +21,11 @@ InitRu is a lightweight command-line tool built with Rust designed to automate p
 - **Python Support:**
   - Standard directory hierarchy and starter files.
   - Automatic virtual environment setup (`python3 -m venv .venv`).
+- **Django Support:**
+  - Creates `<name>/manage.py` and the Django package at `<name>/<name>/`.
+  - Creates an isolated `.venv`, installs Django, and runs its `startproject` command.
+  - Requires Python 3 and access to Python packages; the name must be a valid Python identifier.
+  - With `-g`, initializes Git and ignores the virtual environment, Python cache files, and default SQLite database.
 - **Bash Support:**
   - Creates `src/` directory and an executable `src/main.sh` script.
 - **Rust Support:**
@@ -48,6 +53,7 @@ Usage: InitRu [OPTIONS] [COMMAND]
 
 Commands:
   python  Scaffold a Python project
+  django  Scaffold a Django project
   bash    Scaffold a Bash project
   rust    Scaffold a Rust project
   javascript  Scaffold a JavaScript project
@@ -117,10 +123,21 @@ Options:
     InitRu -g react my_app
     ```
 
-12. **Display help:**
+12. **Create a Django project:**
+    ```bash
+    InitRu django my_site
+    ```
+
+13. **Create a Django project with Git initialized:**
+    ```bash
+    InitRu -g django my_site
+    ```
+
+14. **Display help:**
     ```bash
     InitRu -h
     InitRu python -h
+    InitRu django -h
     InitRu bash -h
     InitRu rust -h
     InitRu javascript -h
