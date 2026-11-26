@@ -1,8 +1,10 @@
-use crate::utils::{crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git};
+use crate::utils::{
+    crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git, nombre_python_valido,
+};
 
 // Crea Django
 pub fn django(nombre: &str, git: bool) -> bool {
-    if !nombre_valido(nombre) {
+    if !nombre_python_valido(nombre) || nombre == "django" {
         eprintln!("El nombre del proyecto Django debe ser un identificador válido de Python.");
         return false;
     }
@@ -44,54 +46,4 @@ pub fn django(nombre: &str, git: bool) -> bool {
     }
 
     true
-}
-
-// Revisa que el nombre sea valido 
-fn nombre_valido(nombre: &str) -> bool {
-    let mut caracteres = nombre.chars();
-    let identificador = matches!(caracteres.next(), Some('A'..='Z' | 'a'..='z' | '_'))
-        && caracteres.all(|caracter| caracter.is_ascii_alphanumeric() || caracter == '_');
-    identificador && !palabra_reservada(nombre) && nombre != "django"
-}
-
-// Las palabras reservadas de Django
-fn palabra_reservada(nombre: &str) -> bool {
-    matches!(
-        nombre,
-        "False"
-            | "None"
-            | "True"
-            | "and"
-            | "as"
-            | "assert"
-            | "async"
-            | "await"
-            | "break"
-            | "class"
-            | "continue"
-            | "def"
-            | "del"
-            | "elif"
-            | "else"
-            | "except"
-            | "finally"
-            | "for"
-            | "from"
-            | "global"
-            | "if"
-            | "import"
-            | "in"
-            | "is"
-            | "lambda"
-            | "nonlocal"
-            | "not"
-            | "or"
-            | "pass"
-            | "raise"
-            | "return"
-            | "try"
-            | "while"
-            | "with"
-            | "yield"
-    )
 }
