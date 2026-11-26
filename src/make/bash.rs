@@ -1,4 +1,4 @@
-use crate::utils::{crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git};
+use crate::utils::general::{crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git};
 
 // Bash
 pub fn bash(nombre: &str, git: bool) {

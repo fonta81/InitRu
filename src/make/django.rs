@@ -1,6 +1,5 @@
-use crate::utils::{
-    crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git, nombre_python_valido,
-};
+use crate::utils::django_utils::nombre_python_valido;
+use crate::utils::general::{crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git};
 
 // Crea Django
 pub fn django(nombre: &str, git: bool) -> bool {

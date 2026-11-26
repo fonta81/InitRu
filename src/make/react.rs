@@ -1,4 +1,6 @@
-use crate::utils::{crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git, nombre_paquete};
+use crate::utils::general::{
+    crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git, nombre_paquete,
+};
 
 // React
 pub fn react(nombre: &str, git: bool) {

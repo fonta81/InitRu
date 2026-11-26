@@ -1,4 +1,4 @@
-use crate::utils::{crear_archivo, crear_carpeta, inicializar_git};
+use crate::utils::general::{crear_archivo, crear_carpeta, inicializar_git};
 
 // JavaScript
 pub fn javascript(nombre: &str, git: bool) {
