@@ -1,18 +1,21 @@
 use std::fs;
 
+/// Crea una carpeta en la ruta y con el nombre que se le indique 
 pub fn crear_carpeta(ruta: &str, nombre: &str) {
     let path = format!("{}/{}", ruta, nombre);
     fs::create_dir_all(&path).expect("No se pudo crear la carpeta");
 }
 
+/// Crea un archivo en la ruta,nombre y con el contenido que se le indique 
 pub fn crear_archivo(ruta: &str, nombre: &str, contenido: &str) {
     let path = format!("{}/{}", ruta, nombre);
     fs::write(&path, contenido).expect("No se pudo crear el archivo");
 }
 
+/// Ejecuta un comando enm el directorio que se le indique 
 pub fn ejecutar_comando(comando: &str, args: &[&str], directorio: Option<&str>) -> bool {
     let mut cmd = std::process::Command::new(comando);
-    if let Some(dir) = directorio {
+   if let Some(dir) = directorio {
         cmd.current_dir(dir);
     }
     let status = cmd
@@ -27,11 +30,12 @@ pub fn ejecutar_comando(comando: &str, args: &[&str], directorio: Option<&str>) 
     status.success()
 }
 
+/// inicializa un repositorio git con -q
 pub fn inicializar_git(directorio: &str) -> bool {
     ejecutar_comando("git", &["init", directorio, "-q"], None)
 }
 
-// npm exige nombres en minusculas y sin caracteres especiales
+/// npm exige nombres en minusculas y sin caracteres especiales
 pub fn nombre_paquete(nombre: &str) -> String {
     let paquete: String = nombre
         .to_lowercase()
@@ -47,7 +51,10 @@ pub fn nombre_paquete(nombre: &str) -> String {
     }
 }
 
-// Revisa que el nombre sea un identificador válido de Python
+
+
+
+/// Revisa que el nombre sea un identificador válido de Python
 pub fn nombre_python_valido(nombre: &str) -> bool {
     let mut caracteres = nombre.chars();
     let identificador = matches!(caracteres.next(), Some('A'..='Z' | 'a'..='z' | '_'))
@@ -55,7 +62,7 @@ pub fn nombre_python_valido(nombre: &str) -> bool {
     identificador && !palabra_reservada_python(nombre)
 }
 
-// Las palabras reservadas de Python
+/// Las palabras reservadas de Python
 fn palabra_reservada_python(nombre: &str) -> bool {
     matches!(
         nombre,
