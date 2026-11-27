@@ -52,7 +52,7 @@ fn run_initru(args: &[&str], bin_dir: &Path, npm_marker: &Path) -> std::process:
 }
 
 #[test]
-fn typescript_scaffold_survives_npm_failure_and_normalizes_package_name() {
+fn typescript_stops_and_reports_when_npm_exits_nonzero() {
     let temp = TestDir::new();
     let bin_dir = temp.path().join("bin");
     let project = temp.path().join("My Project!");
@@ -61,15 +61,28 @@ fn typescript_scaffold_survives_npm_failure_and_normalizes_package_name() {
     stub_command(
         &bin_dir,
         "npm",
-        "printf '%s\\n' \"$@\" > \"$INITRU_NPM_MARKER\"\nexit 23",
+        "printf '%s\\n' \"$*\" >> \"$INITRU_NPM_MARKER\"\nexit 23",
     );
 
     let output = run_initru(&["typescript", "My Project!"], &bin_dir, &npm_marker);
 
     assert!(
-        output.status.success(),
-        "generator should continue after npm failure: {}",
+        !output.status.success(),
+        "generator should fail after npm failure: {}",
         String::from_utf8_lossy(&output.stderr)
+    );
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("npm"),
+        "stderr should identify npm: {stderr}"
+    );
+    assert!(
+        stderr.contains("install"),
+        "stderr should identify install: {stderr}"
+    );
+    assert!(
+        stderr.contains("23"),
+        "stderr should include status 23: {stderr}"
     );
     assert!(project.join("src/main.ts").is_file());
     assert!(project.join("tsconfig.json").is_file());
@@ -89,6 +102,27 @@ fn typescript_scaffold_survives_npm_failure_and_normalizes_package_name() {
     assert_eq!(
         fs::read_to_string(npm_marker).expect("npm should be invoked"),
         "install\n"
+    );
+}
+
+#[test]
+fn typescript_reports_when_npm_cannot_be_started() {
+    let temp = TestDir::new();
+    let bin_dir = temp.path().join("bin");
+    let npm_marker = temp.path().join("npm-args");
+    fs::create_dir_all(&bin_dir).expect("bin directory should be created");
+
+    let output = run_initru(&["typescript", "missing_npm"], &bin_dir, &npm_marker);
+
+    assert!(!output.status.success());
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("npm"),
+        "stderr should identify npm: {stderr}"
+    );
+    assert!(
+        stderr.contains("No se pudo iniciar"),
+        "stderr should identify a spawn failure: {stderr}"
     );
 }
 
@@ -117,6 +151,31 @@ fn gitignore_is_created_only_when_git_is_requested() {
         fs::read_to_string(git_project.join(".gitignore")).expect(".gitignore should exist");
     assert!(gitignore.lines().any(|line| line == "node_modules/"));
     assert!(gitignore.lines().any(|line| line == "dist/"));
+}
+
+#[test]
+fn typescript_reports_git_failure_without_writing_gitignore() {
+    let temp = TestDir::new();
+    let bin_dir = temp.path().join("bin");
+    let project = temp.path().join("git-failure");
+    let npm_marker = temp.path().join("npm-args");
+    fs::create_dir_all(&bin_dir).expect("bin directory should be created");
+    stub_command(&bin_dir, "npm", "exit 0");
+    stub_command(&bin_dir, "git", "exit 31");
+
+    let output = run_initru(&["-g", "typescript", "git-failure"], &bin_dir, &npm_marker);
+
+    assert!(!output.status.success());
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("git"),
+        "stderr should identify Git: {stderr}"
+    );
+    assert!(
+        stderr.contains("31"),
+        "stderr should include status 31: {stderr}"
+    );
+    assert!(!project.join(".gitignore").exists());
 }
 
 #[test]

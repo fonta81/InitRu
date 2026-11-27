@@ -1,4 +1,65 @@
+use std::fmt;
 use std::fs;
+use std::io;
+use std::process::{Command, ExitStatus};
+
+#[derive(Debug)]
+pub enum InitError {
+    Validation(String),
+    CommandSpawn {
+        program: String,
+        args: Vec<String>,
+        source: io::Error,
+    },
+    CommandFailed {
+        program: String,
+        args: Vec<String>,
+        status: ExitStatus,
+    },
+}
+
+impl fmt::Display for InitError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Validation(message) => write!(f, "{message}"),
+            Self::CommandSpawn {
+                program,
+                args,
+                source,
+            } => {
+                write!(f, "No se pudo iniciar el comando {program}")?;
+                for arg in args {
+                    write!(f, " {arg:?}")?;
+                }
+                write!(f, ": {source}")
+            }
+            Self::CommandFailed {
+                program,
+                args,
+                status,
+            } => {
+                write!(f, "El comando {program}")?;
+                for arg in args {
+                    write!(f, " {arg:?}")?;
+                }
+                if let Some(code) = status.code() {
+                    write!(f, " terminó con código {code}.")
+                } else {
+                    write!(f, " terminó sin un código de salida.")
+                }
+            }
+        }
+    }
+}
+
+impl std::error::Error for InitError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Self::CommandSpawn { source, .. } => Some(source),
+            Self::Validation(_) | Self::CommandFailed { .. } => None,
+        }
+    }
+}
 
 /// Crea una carpeta en la ruta y con el nombre que se le indique
 pub fn crear_carpeta(ruta: &str, nombre: &str) {
@@ -13,25 +74,38 @@ pub fn crear_archivo(ruta: &str, nombre: &str, contenido: &str) {
 }
 
 /// Ejecuta un comando enm el directorio que se le indique
-pub fn ejecutar_comando(comando: &str, args: &[&str], directorio: Option<&str>) -> bool {
-    let mut cmd = std::process::Command::new(comando);
+pub fn ejecutar_comando(
+    comando: &str,
+    args: &[&str],
+    directorio: Option<&str>,
+) -> Result<(), InitError> {
+    let args: Vec<String> = args.iter().map(|arg| (*arg).to_string()).collect();
+    let mut cmd = Command::new(comando);
     if let Some(dir) = directorio {
         cmd.current_dir(dir);
     }
     let status = cmd
-        .args(args)
+        .args(&args)
         .status()
-        .expect("No se pudo ejecutar el comando");
+        .map_err(|source| InitError::CommandSpawn {
+            program: comando.to_string(),
+            args: args.clone(),
+            source,
+        })?;
 
-    if !status.success() {
-        eprintln!("El comando terminó con código: {:?}", status.code());
+    if status.success() {
+        Ok(())
+    } else {
+        Err(InitError::CommandFailed {
+            program: comando.to_string(),
+            args,
+            status,
+        })
     }
-
-    status.success()
 }
 
 /// inicializa un repositorio git con -q
-pub fn inicializar_git(directorio: &str) -> bool {
+pub fn inicializar_git(directorio: &str) -> Result<(), InitError> {
     ejecutar_comando("git", &["init", directorio, "-q"], None)
 }
 
