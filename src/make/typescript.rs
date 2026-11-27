@@ -1,8 +1,8 @@
 use crate::utils::general::{
-    crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git, nombre_paquete,
+    InitError, crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git, nombre_paquete,
 };
 
-pub fn typescript(nombre: &str, git: bool) {
+pub fn typescript(nombre: &str, git: bool) -> Result<(), InitError> {
     crear_carpeta(nombre, "src");
 
     crear_archivo(
@@ -31,10 +31,12 @@ pub fn typescript(nombre: &str, git: bool) {
         "console.log('hola mundo');\n",
     );
 
-    ejecutar_comando("npm", &["install"], Some(nombre));
+    ejecutar_comando("npm", &["install"], Some(nombre))?;
 
     if git {
-        inicializar_git(nombre);
+        inicializar_git(nombre)?;
         crear_archivo(nombre, ".gitignore", "node_modules/\ndist/\n");
     }
+
+    Ok(())
 }

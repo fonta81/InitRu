@@ -1,42 +1,38 @@
 use crate::utils::django_utils::nombre_python_valido;
-use crate::utils::general::{crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git};
+use crate::utils::general::{
+    InitError, crear_archivo, crear_carpeta, ejecutar_comando, inicializar_git,
+};
 
 // Crea Django
-pub fn django(nombre: &str, git: bool) -> bool {
+pub fn django(nombre: &str, git: bool) -> Result<(), InitError> {
     if !nombre_python_valido(nombre) || nombre == "django" {
-        eprintln!("El nombre del proyecto Django debe ser un identificador válido de Python.");
-        return false;
+        return Err(InitError::Validation(
+            "El nombre del proyecto Django debe ser un identificador válido de Python.".to_string(),
+        ));
     }
     if std::path::Path::new(nombre).exists() {
-        eprintln!("El directorio del proyecto ya existe: {nombre}");
-        return false;
+        return Err(InitError::Validation(format!(
+            "El directorio del proyecto ya existe: {nombre}"
+        )));
     }
 
     crear_carpeta(".", nombre);
     crear_archivo(nombre, "requirements.txt", "Django\n");
 
-    if !ejecutar_comando("python3", &["-m", "venv", ".venv"], Some(nombre)) {
-        return false;
-    }
-    if !ejecutar_comando(
+    ejecutar_comando("python3", &["-m", "venv", ".venv"], Some(nombre))?;
+    ejecutar_comando(
         ".venv/bin/python",
         &["-m", "pip", "install", "Django"],
         Some(nombre),
-    ) {
-        return false;
-    }
-    if !ejecutar_comando(
+    )?;
+    ejecutar_comando(
         ".venv/bin/python",
         &["-m", "django", "startproject", nombre, "."],
         Some(nombre),
-    ) {
-        return false;
-    }
+    )?;
 
     if git {
-        if !inicializar_git(nombre) {
-            return false;
-        }
+        inicializar_git(nombre)?;
         crear_archivo(
             nombre,
             ".gitignore",
@@ -44,5 +40,5 @@ pub fn django(nombre: &str, git: bool) -> bool {
         );
     }
 
-    true
+    Ok(())
 }

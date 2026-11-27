@@ -2,6 +2,7 @@ mod make;
 mod utils;
 
 use clap::Parser;
+use utils::general::InitError;
 
 #[derive(clap::Subcommand)]
 enum Commands {
@@ -43,7 +44,7 @@ struct Cli {
 fn main() {
     let cli = Cli::parse();
 
-    match cli.command {
+    let result: Result<(), InitError> = match cli.command {
         Some(Commands::Python { name }) => make::python(&name, cli.git),
         Some(Commands::Bash { name }) => make::bash(&name, cli.git),
         Some(Commands::Rust { name }) => make::rust(&name, cli.git),
@@ -51,8 +52,16 @@ fn main() {
         Some(Commands::Typescript { name }) => make::typescript(&name, cli.git),
         Some(Commands::React { name }) => make::react(&name, cli.git),
         Some(Commands::Golang { name }) => make::golang(&name, cli.git),
-        Some(Commands::Django { name }) => { if !make::django(&name, cli.git) { std::process::exit(1); } }
+        Some(Commands::Django { name }) => make::django(&name, cli.git),
 
-        None => { println!("run -h for help"); }
+        None => {
+            println!("run -h for help");
+            Ok(())
+        }
+    };
+
+    if let Err(error) = result {
+        eprintln!("{error}");
+        std::process::exit(1);
     }
 }

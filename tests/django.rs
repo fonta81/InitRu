@@ -207,6 +207,15 @@ fn django_stops_when_virtualenv_creation_fails() {
     );
 
     assert!(!output.status.success());
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("python3"),
+        "stderr should identify Python: {stderr}"
+    );
+    assert!(
+        stderr.contains("21"),
+        "stderr should include status 21: {stderr}"
+    );
     assert_eq!(
         fs::read_to_string(calls).expect("venv command should be recorded"),
         "python3:-m venv .venv\n"
@@ -230,6 +239,15 @@ fn django_stops_when_install_fails() {
     );
 
     assert!(!output.status.success());
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("pip"),
+        "stderr should identify pip: {stderr}"
+    );
+    assert!(
+        stderr.contains("22"),
+        "stderr should include status 22: {stderr}"
+    );
     assert_eq!(
         fs::read_to_string(calls).expect("Python commands should be recorded"),
         "python3:-m venv .venv\nvenv:-m pip install Django\n"
@@ -254,6 +272,15 @@ fn django_fails_when_git_initialization_fails() {
     );
 
     assert_eq!(output.status.code(), Some(1));
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("git"),
+        "stderr should identify Git: {stderr}"
+    );
+    assert!(
+        stderr.contains("31"),
+        "stderr should include status 31: {stderr}"
+    );
     assert!(!temp.path().join("git_failure/.gitignore").exists());
 }
 
