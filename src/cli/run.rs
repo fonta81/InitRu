@@ -9,6 +9,7 @@ pub(super) fn run() {
     let cli = Cli::parse();
 
     let result: Result<(), InitError> = match cli.command {
+        Some(Commands::C { name }) => make::c(&name, cli.git),
         Some(Commands::Python { name }) => make::python(&name, cli.git),
         Some(Commands::Bash { name }) => make::bash(&name, cli.git),
         Some(Commands::Rust { name }) => make::rust(&name, cli.git),
