@@ -14,6 +14,7 @@ fn help_lists_commands_and_aliases() {
     assert!(output.status.success());
     let stdout = String::from_utf8_lossy(&output.stdout);
     for expected in [
+        "c",
         "python",
         "py",
         "bash",

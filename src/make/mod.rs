@@ -1,4 +1,5 @@
 mod bash;
+mod c;
 mod django;
 mod golang;
 mod javascript;
@@ -8,6 +9,7 @@ mod rust;
 mod typescript;
 
 pub use bash::bash;
+pub use c::c;
 pub use django::django;
 pub use golang::golang;
 pub use javascript::javascript;
