@@ -18,6 +18,12 @@ InitRu es una herramienta de linea de comandos ligera desarrollada en Rust para 
 ## Caracteristicas
 
 - **Inicializacion Rapida:** Genera la base de nuevos proyectos al instante.
+- **Soporte para C:**
+  - Crea `src/`, `src/main.c`, `README.md` y un `Makefile`.
+  - Compila el programa generado con `gcc`.
+- **Soporte para Go:**
+  - Crea `src/`, `src/main.go`, `go.sum` e inicializa un modulo de Go.
+  - Ejecuta `go mod tidy` y `go fmt ./...`.
 - **Soporte para Python:**
   - Estructura estandar de directorios y archivos de inicio.
   - Creacion automatica de entorno virtual (`python3 -m venv .venv`).
@@ -52,6 +58,7 @@ InitRu es una herramienta de linea de comandos ligera desarrollada en Rust para 
 Uso: InitRu [OPCIONES] [COMANDO]
 
 Comandos:
+  c       Crea un nuevo proyecto en C
   python  Crea un nuevo proyecto en Python
   django  Crea un nuevo proyecto en Django
   bash    Crea un nuevo proyecto en Bash
@@ -59,6 +66,7 @@ Comandos:
   javascript  Crea un nuevo proyecto en JavaScript
   typescript  Crea un nuevo proyecto en TypeScript
   react   Crea un nuevo proyecto en React (Vite)
+  golang  Crea un nuevo proyecto en Go
   help    Muestra este mensaje o la ayuda del subcomando
 
 Opciones:
@@ -66,74 +74,86 @@ Opciones:
   -h, --help  Muestra la ayuda
 ```
 
+Alias disponibles: `c`, `py`, `sh`, `rs`, `js`, `ty`, `rt`, `go` y `dj`.
+
 ### Ejemplos
 
-1. **Crear un proyecto Python estandar:**
+1. **Crear un proyecto Go:**
+   ```bash
+   InitRu golang mi_modulo
+   ```
+
+2. **Crear un proyecto Go con Git inicializado:**
+   ```bash
+   InitRu -g golang mi_modulo
+   ```
+
+3. **Crear un proyecto Python estandar:**
    ```bash
    InitRu python mi_proyecto
    ```
 
-2. **Crear un proyecto Python con Git inicializado:**
+4. **Crear un proyecto Python con Git inicializado:**
    ```bash
    InitRu -g python mi_proyecto
    ```
 
-3. **Crear un proyecto Bash:**
+5. **Crear un proyecto Bash:**
    ```bash
    InitRu bash mi_script
    ```
 
-4. **Crear un proyecto Bash con Git inicializado:**
+6. **Crear un proyecto Bash con Git inicializado:**
    ```bash
    InitRu -g bash mi_script
    ```
 
-5. **Crear un proyecto Rust:**
+7. **Crear un proyecto Rust:**
    ```bash
    InitRu rust mi_crate
    ```
 
-6. **Crear un proyecto Rust con Git inicializado:**
+8. **Crear un proyecto Rust con Git inicializado:**
    ```bash
    InitRu -g rust mi_crate
    ```
 
-7. **Crear un proyecto JavaScript:**
+9. **Crear un proyecto JavaScript:**
    ```bash
    InitRu javascript mi_app
    ```
 
-8. **Crear un proyecto JavaScript con Git inicializado:**
+10. **Crear un proyecto JavaScript con Git inicializado:**
    ```bash
    InitRu -g javascript mi_app
    ```
 
-9. **Crear un proyecto React:**
+11. **Crear un proyecto React:**
    ```bash
    InitRu react mi_app
    ```
 
-10. **Crear un proyecto TypeScript:**
+12. **Crear un proyecto TypeScript:**
     ```bash
     InitRu typescript mi_app
     ```
 
-11. **Crear un proyecto React con Git inicializado:**
+13. **Crear un proyecto React con Git inicializado:**
     ```bash
     InitRu -g react mi_app
     ```
 
-12. **Crear un proyecto Django:**
+14. **Crear un proyecto Django:**
     ```bash
     InitRu django mi_sitio
     ```
 
-13. **Crear un proyecto Django con Git inicializado:**
+15. **Crear un proyecto Django con Git inicializado:**
     ```bash
     InitRu -g django mi_sitio
     ```
 
-14. **Consultar la ayuda:**
+16. **Consultar la ayuda:**
     ```bash
     InitRu -h
     InitRu python -h
@@ -143,6 +163,7 @@ Opciones:
     InitRu javascript -h
     InitRu typescript -h
     InitRu react -h
+    InitRu golang -h
     ```
 
 ---
